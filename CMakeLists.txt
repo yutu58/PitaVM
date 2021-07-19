@@ -3,4 +3,4 @@ project(PitaVM)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(PitaVM main.cpp)
+add_executable(PitaVM main.cpp stack.cpp frames.cpp frames.h)

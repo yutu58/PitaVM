@@ -1,0 +1,13 @@
+/*
+Bytecode for the following program (pseudocode)
+
+int i = 2;
+int j = 3;
+int k = 2 * 3;
+print(k);
+*/
+
+01 01 //Initiate main frame? [frame = 3 addresses]
+//Initiate LVA
+//Initiate OP
+//Initate FD ?
