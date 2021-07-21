@@ -1,9 +1,11 @@
-01: Reserve memory
-	1st byte: Mode of assigning space: 00 = in n bytes, 01 = in 2^n bytes.
-	2-5 byte: number of bytes
-	6th byte: Destination register of address?
+addresses of 4 bytes
 
-02:
+Moet een soort method calls hebben in de VM want recursion
+
+01: Reserve memory :: address of this memory goes to rax
+	1-4 byte: number of bytes
+
+02: 
 
 03:
 
@@ -23,12 +25,13 @@
 
 0B:
 
-0C:
+0C: MOV: (for rsp rbp enzo)
 
-0D:
+0D: Function call -> Push where in bytecode we are and go to called subroutine
 
-0E:
+0E: Pop to register x (e.g. 0E 01 -> pop %eax)
 
-0F:
+0F: Push register
+	Push register x on "the stack" (e.g. 0E 01 -> push %rax)
 
 11:

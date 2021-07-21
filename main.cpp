@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "stackOperations.h"
+#include "stack_operations.h"
 #include "instructions.h"
 
 void run(const string& file);
@@ -13,7 +13,17 @@ void pop(vector<int> stack);
 
 using namespace std;
 
+int* memory;
+
 int main() {
+    //4 MB
+    memory = (int*)calloc(1048576, sizeof(int));
+
+    //Heap, Stack, Registers, Accum need to have determined memory places instead of regular ints in stackOperations.h
+    //They need to be in the ram allocated to this vm, normally they shouldnt be in memory
+
+    //Maybe create 2 seperate memories, 1 the simulated (e.g. those that are not memory on a nonVM) and 1 the heap
+
     string command;
     getline(cin, command);
     if (command.rfind("run ", 0) == 0) {
