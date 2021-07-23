@@ -20,11 +20,11 @@ int execute() {
                 break;
             case FETCH: //opcode, amount of bytes [1, 2, 4]
                 //fetch
-                fetch(*(int *) PC);
+                fetch(*PC);
                 PC++;
                 break;
             case MOVE_POINTERS: //was "copy", type [1, or type 2]
-                move_pointers(*(int *) PC);
+                move_pointers(*PC);
                 PC++;
                 break;
             case JUMP:
@@ -62,6 +62,10 @@ int execute() {
                 break;
             case PUSH:
                 push();
+                break;
+            case CMP:
+                compare(*PC);
+                PC++;
                 break;
             default:
                 return 2; //unknown instruction;

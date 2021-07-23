@@ -8,6 +8,7 @@ namespace hardware {
     int *RSP;
     char *heap_entry;
     int accum;
+    bool skip;
 
     const int STACK_SIZE = (1048576) * 4; // stack van 4 mb;
 

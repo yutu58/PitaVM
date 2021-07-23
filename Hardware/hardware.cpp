@@ -28,19 +28,28 @@ int load_program(const std::string &file) {
     return 0;
 }
 
+void debugger(int val, std::string help) {
+    std::cout << "!!!!" << val << help << "RBP: " << RBP << " RSP: " << RSP << " PC: " << (int) PC << std::endl;
+}
+
 void load(int val) {
     accum = val;
 }
 
-void fetch(int amount) {
-    accum = (*(int*) accum & (int) pow(2, accum*8));
+void fetch(char amount) {
+    accum = (*reinterpret_cast<int *>(accum) & (int) pow(2, (int) amount*8)-1);
 }
 
-void move_pointers(int mode){
-    if (mode == 1) {
+void move_pointers(char mode){
+    if (mode == 0) {
         RSP = RBP;
-    } else if (mode == 2) {
+    } else if (mode == 1) {
         RBP = RSP;
+    } else if (mode == 2) {
+        accum = (int) RBP;
+    } else if (mode == 3) {
+        RSP--;
+        RBP = reinterpret_cast<int *>(*RSP);
     }
 }
 
@@ -50,18 +59,23 @@ void push() {
 }
 
 void jump(int newOffset) {
+    if (skip) {
+        skip = false;
+        PC += 4;
+        return;
+    }
     PC = (char*) memory + STACK_SIZE + newOffset;
 }
 
 void call(int newOffset){
-    accum = (int) PC;
+    accum = (int) PC + 4;
     push();
     jump(newOffset);
 }
 
 void return_method() {
     RSP--;
-    PC = (char*) (*RSP);
+    PC = reinterpret_cast<char *> (*RSP);
 }
 
 void pop() {
@@ -77,6 +91,7 @@ void add_pop() {
 void sub_pop() {
     RSP--;
     accum -= *RSP;
+
 }
 
 void mul_pop() {
@@ -89,10 +104,32 @@ void div_pop() {
     accum /= *RSP;
 }
 
+
 void print() {
-    std::cout << *(char*) accum;
+    std::cout << (char) accum;
 }
 
 void print_int() {
     std::cout << accum;
 }
+
+void compare(char mode) {
+    if (mode == 0) {
+        if (accum != 0) {
+            skip = true;
+        }
+    } else if (mode == 1) {
+        if (accum < 0) {
+            skip = true;
+        }
+    } else if (mode == 2) {
+        if (accum <= 0) {
+            skip = true;
+        }
+    } else if (mode == 3) {
+        if (accum == 0) {
+            skip = true;
+        }
+    }
+}
+

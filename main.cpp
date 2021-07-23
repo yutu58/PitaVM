@@ -2,6 +2,7 @@
 #include <string>
 #include "Hardware/hardware.cpp"
 #include "Instructions/instruction_handler.cpp"
+#include "binary_check.cpp"
 
 using namespace std;
 
@@ -9,6 +10,8 @@ void run(const string& file);
 
 int main() {
     initialize();
+
+//    binarywriter();
 
     string command;
     getline(cin, command);
