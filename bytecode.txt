@@ -1,0 +1,47 @@
+/*
+Bytecode for the following program (pseudocode)
+
+int i = 2;
+int j = 3;
+int k = multiply(2, 3) - 1
+print(k);
+
+multiply(x, y):
+    int z = x * y;
+    return z + 1;
+*/
+
+Push rbp
+mov rsp, rbp
+push 2
+push 3
+push 0
+push [rbp+8]
+push [rbp+16]
+call multiply
+pop
+pop
+push eax
+push 1
+sub
+pop rbp+24
+push rbp+24
+print LITERAL
+
+END
+
+
+multiply:
+    push rbp
+    mov rsp rbp
+    push rsp[-24]
+    push rsp[-24]
+    push 0
+    push rbp[+8]
+    push rbp[+16]
+    mul
+    pop rbp[+24]
+
+    leave
+    ret
+

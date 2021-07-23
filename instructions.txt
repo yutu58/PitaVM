@@ -1,0 +1,37 @@
+addresses of 4 bytes
+
+Moet een soort method calls hebben in de VM want recursion
+
+01: Reserve memory :: address of this memory goes to rax
+	1-4 byte: number of bytes
+
+02: 
+
+03:
+
+04:
+
+05:
+
+06:
+
+07:
+
+08:
+
+09:
+
+0A:
+
+0B:
+
+0C: MOV: (for rsp rbp enzo)
+
+0D: Function call -> Push where in bytecode we are and go to called subroutine
+
+0E: Pop to register x (e.g. 0E 01 -> pop %eax)
+
+0F: Push register
+	Push register x on "the stack" (e.g. 0E 01 -> push %rax)
+
+11:
