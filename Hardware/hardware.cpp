@@ -13,6 +13,7 @@ void initialize() {
 }
 
 int load_program(const std::string &file) {
+    resetPC();
     std::ifstream byte_file(file);
     if (byte_file.fail()) {
         return -1;

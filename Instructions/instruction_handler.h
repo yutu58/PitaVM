@@ -27,5 +27,4 @@ namespace instructions {
     };
 }
 
-
 #endif //PITAVM_INSTRUCTION_HANDLER_H

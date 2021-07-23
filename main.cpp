@@ -7,17 +7,31 @@
 using namespace std;
 
 void run(const string& file);
+void help();
+void info();
+
+bool running;
 
 int main() {
+    running = true;
     initialize();
 
-//    binarywriter();
-
-    string command;
-    getline(cin, command);
-    if (command.rfind("run ", 0) == 0) {
-        string z = command.substr(4);
-        run(z);
+    while (running) {
+        string command;
+        getline(cin, command);
+        if (command.rfind("run ", 0) == 0) {
+            string z = command.substr(4);
+            run(z);
+        }
+        else if (command == "help") {
+            help();
+        }
+        else if (command == "info") {
+            info();
+        }
+        else if (command == "q") {
+            running = false;
+        }
     }
 }
 
@@ -30,7 +44,12 @@ void run(const string& file) {
     }
 }
 
+void info() {
+    cout << "PitaVM version 0.0.1" << endl;
+}
 
 void help() {
-    //TODO: wow
+    cout << "Run the following commands to get: " << endl << endl;
+    cout << "  Help - This menu" << endl;
+    cout << "  Run [bytecode_file] - Execute a program" << endl;
 }
