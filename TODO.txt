@@ -1,0 +1,13 @@
+V0.0.2:
+-New / better op-codes, purely stack based (only accumulator for return values)
+
+-Something with storing in the heap like string or objects?
+
+
+Later:
+-Make the stack byte instead of integer based and allow for
+-Objects look fun?
+
+Current "problems":
+-Still using accumulator for return values
+-Having to copy arguments into local variables

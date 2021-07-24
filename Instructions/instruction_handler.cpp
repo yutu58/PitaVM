@@ -1,10 +1,11 @@
 #include "instruction_handler.h"
-using namespace instructions;
 
+using namespace instructions;
 //TODO: not accessing PC in this namespace
 
 int execute() {
     resetPC();
+
     bool running = true;
     while (running) {
         char instr = *PC;
