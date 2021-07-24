@@ -12,7 +12,3 @@ void initialize() {
     PC = memory + STACK_SIZE;
 }
 
-void debugger(int val, std::string help) {
-    std::cout << "!!!!" << val << help << "RBP: " << RBP << " RSP: " << RSP << " PC: " << (int) PC << std::endl;
-}
-

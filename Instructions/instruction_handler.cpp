@@ -1,3 +1,5 @@
+#include <string>
+
 using namespace instructions;
 
 void push_f(int value) {
@@ -51,7 +53,7 @@ void pop_acc_f() {
 }
 
 void call_f(int offset) {
-    push_f((int) PC);
+    push_f((int) PC + 4);
     PC = (char*) memory + STACK_SIZE + offset;
 }
 
@@ -60,10 +62,10 @@ void ret_f() {
 }
 
 void mov_f(char a, char b) {
-    //TODO: Implement
+
 }
 
-void err_f(char error_code) {
+void exception_f(char error_code) {
     //TODO: todo
 }
 
@@ -75,7 +77,90 @@ void sub_f() {
     push_f(pop_f() - pop_f());
 }
 
-//TODO: continue
+void mul_f() {
+    push_f(pop_f() * pop_f());
+}
 
+void div_f() {
+    push_f(pop_f() / pop_f());
+}
+
+void mod_f() {
+    push_f(pop_f() % pop_f());
+}
+
+void b_not_f() {
+    push_f(~pop_f());
+}
+
+void b_and_f() {
+    push_f(pop_f() & pop_f());
+}
+
+void b_or_f() {
+    push_f(pop_f() | pop_f());
+}
+
+void jmp_f(int offset) {
+    PC = (char*) memory + STACK_SIZE + offset;
+}
+
+void jz_f(int offset) {
+    if (pop_f() == 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jnz_f(int offset) {
+    if (pop_f() != 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jg_f(int offset) {
+    if (pop_f() > 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jge_f(int offset) {
+    if (pop_f() >= 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jl_f(int offset) {
+    if (pop_f() < 0) {
+        PC = (char *) memory + STACK_SIZE + offset;
+    }
+}
+
+void jle_f(int offset) {
+    if (pop_f() <= 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void debug_f() {
+    std::cout << "RBP:" << RBP << " RSP:" << RSP << " *RSP:" << *RSP << " PC_offset:" << (int) PC - (int) memory - STACK_SIZE;
+}
+
+void print_ascii_f() {
+    std::cout << (char) pop_f();
+}
+
+void print_int_f() {
+    std::cout << (int) pop_f();
+}
+
+void scan_ascii_f() {
+    //TODO: to_be_implemented;
+}
+
+void scan_int_f() {
+    std::string b;
+    std::cin >> b;
+    push_f(std::stoi(b));
+}
 
 

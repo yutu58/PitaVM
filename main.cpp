@@ -4,6 +4,7 @@
 #include "Instructions/executor.cpp"
 #include "TempAssembler/Assembler.cpp"
 #include "binary_check.cpp"
+#include "Errors/ErrorCodes.h"
 
 using namespace std;
 
@@ -23,6 +24,10 @@ int main() {
         if (command.rfind("run ", 0) == 0) {
             string z = command.substr(4);
             run(z);
+        }
+        else if (command.rfind("assemble ", 0) == 0) {
+            string z = command.substr(9);
+            assemble(z);
         }
         else if (command == "help") {
             help();

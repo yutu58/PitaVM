@@ -23,7 +23,7 @@ namespace instructions {
         ret,                        //0000 1101, 0D, Pop current top of stack into PC
         mov,                        //0000 1110, 0E, Copy value from 1 "register" to another, 2 arguments of 4 bits, [src, dst]
                                     //0001 -> BP, 0010 -> RP, 0100 -> PC, 0101 -> ACC
-        err,                        //0000 1111, 0F, Give error code and stop program, 1 argument of 1 byte (error code)
+        exception,                  //0000 1111, 0F, Give error code and stop program, 1 argument of 1 byte (error code)
         add,                        //0001 0000, 10, adds 2 top values of stack
         sub,                        //0001 0001, 11, subtracts 2 top values of stack
         mul,                        //0001 0010, 12, multiplies top values on stack
@@ -36,14 +36,15 @@ namespace instructions {
         jz,                         //0001 1001, 19, 1 arg -> address to jump to, takes 1 from stack
         jnz,                        //0001 1010, 1A, 1 arg -> address to jump to, takes 1 from stack
         jg,                         //0001 1011, 1B, 1 arg -> address to jump to, takes 1 from stack
-        jgz,                        //0001 1100, 1C, 1 arg -> address to jump to, takes 1 from stack
+        jge,                        //0001 1100, 1C, 1 arg -> address to jump to, takes 1 from stack
         jl,                         //0001 1101, 1D, 1 arg -> address to jump to, takes 1 from stack
-        jlz,                        //0001 1110, 1E, 1 arg -> address to jump to, takes 1 from stack
+        jle,                        //0001 1110, 1E, 1 arg -> address to jump to, takes 1 from stack
         debug,                      //0001 1111, 1F
         print_ascii,                //0010 0000, 20
         print_int,                  //0010 0001, 21
         scan_ascii,                 //0010 0010, 22
         scan_int,                   //0010 0011, 23
+        halt                        //0010 0100, 24
     };
 }
 
