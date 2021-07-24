@@ -62,7 +62,24 @@ void ret_f() {
 }
 
 void mov_f(char a, char b) {
-
+    int all[4] = {(int) RBP, (int) RSP, (int) PC, accum};
+    int temp = all[a];
+    switch (b) {
+        case 0:
+            RBP = reinterpret_cast<int*>(temp);
+            break;
+        case 1:
+            RSP = reinterpret_cast<int*>(temp);
+            break;
+        case 2:
+            PC =  reinterpret_cast<char*>(temp);
+            break;
+        case 3:
+            accum = temp;
+            break;
+        default:
+            return;
+    }
 }
 
 void exception_f(char error_code) {

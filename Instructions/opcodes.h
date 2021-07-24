@@ -22,7 +22,7 @@ namespace instructions {
         call,                       //0000 1100, 0C, Push current value of PC to stack and change PC to new value
         ret,                        //0000 1101, 0D, Pop current top of stack into PC
         mov,                        //0000 1110, 0E, Copy value from 1 "register" to another, 2 arguments of 4 bits, [src, dst]
-                                    //0001 -> BP, 0010 -> RP, 0100 -> PC, 0101 -> ACC
+                                    //0000 -> BP, 0001 -> RP, 0010 -> PC, 0011 -> ACC
         exception,                  //0000 1111, 0F, Give error code and stop program, 1 argument of 1 byte (error code)
         add,                        //0001 0000, 10, adds 2 top values of stack
         sub,                        //0001 0001, 11, subtracts 2 top values of stack

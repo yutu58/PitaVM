@@ -1,4 +1,5 @@
 #include <map>
+#include <vector>
 
 #ifndef PITAVM_ASSEMBLER_H
 #define PITAVM_ASSEMBLER_H
@@ -43,6 +44,15 @@ namespace assembler {
              {"scan_int", scan_int},
              {"halt", halt}
             };
+
+    std::vector<char> convertIntToBytes(int integer) {
+        std::vector<char> res;
+        res.push_back((char) (integer & 0xff));
+        res.push_back((char) ((integer >> 8) & 0xff));
+        res.push_back((char) ((integer >> 16) & 0xff));
+        res.push_back((char) ((integer >> 24) & 0xff));
+        return res;
+    }
 }
 
 #endif //PITAVM_ASSEMBLER_H
