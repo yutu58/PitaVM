@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 #include "Hardware/hardware.cpp"
-#include "Instructions/instruction_handler.cpp"
+#include "Instructions/executor.cpp"
+#include "TempAssembler/Assembler.cpp"
 #include "binary_check.cpp"
 
 using namespace std;

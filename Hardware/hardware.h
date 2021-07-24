@@ -15,6 +15,8 @@ namespace hardware {
     void resetPC() {
         PC = memory + STACK_SIZE;
     }
+
+    void pop();
 }
 
 #endif //PITAVM_HARDWARE_H

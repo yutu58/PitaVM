@@ -11,3 +11,7 @@ Later:
 Current "problems":
 -Still using accumulator for return values
 -Having to copy arguments into local variables
+
+Snel fixen:
+//TODO: load_local_var en store_local_var kunnen niet uit scope
+//Nog geen echte store op address ofzo

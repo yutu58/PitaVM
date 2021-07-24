@@ -5,7 +5,7 @@
 #ifndef PITAVM_OPCODES_H
 #define PITAVM_OPCODES_H
 
-namespace opcodes {
+namespace instructions {
     enum opcodes {
         nop,                        //0000 0000, 00, No operation, 0 arguments
         push_null,                  //0000 0001, 01, Push null reference on the stack
@@ -14,7 +14,7 @@ namespace opcodes {
         push_acc,                   //0000 0100, 04, Push value of accumulator to stack
         copy,                       //0000 0101, 05, Repeat the last value on the stack
         load_local_var,             //0000 0110, 06, Push the xth local variable, 1 argument of 1 byte (index of argument, starting at 0) -> basically fetch [rbp + index]
-        store_local_var,            //0000 0111, 07, Store at the xth local variable, 1 argument of 1 byte (index of argument, starting at 0)
+        store_local_var,            //0000 0111, 07, Store at the xth local variable, 1 argument of 1 byte (index of argument, starting at 0) //Nessecary?
         fetch,                      //0000 1000, 08, Retrieve int value at given address, 1 argument of 1 byte (how many bytes to retrieve)
         pop,                        //0000 1001, 09, Discard top value of stack
         pop_bp,                     //0000 1010, 0A, Top value of stack becomes base pointer
@@ -39,7 +39,7 @@ namespace opcodes {
         jgz,                        //0001 1100, 1C, 1 arg -> address to jump to, takes 1 from stack
         jl,                         //0001 1101, 1D, 1 arg -> address to jump to, takes 1 from stack
         jlz,                        //0001 1110, 1E, 1 arg -> address to jump to, takes 1 from stack
-        NOTHINGYET,                 //0001 1111, 1F
+        debug,                      //0001 1111, 1F
         print_ascii,                //0010 0000, 20
         print_int,                  //0010 0001, 21
         scan_ascii,                 //0010 0010, 22
