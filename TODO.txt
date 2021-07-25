@@ -1,0 +1,18 @@
+V0.0.2:
+-New / better op-codes, purely stack based (only accumulator for return values)
+-Assembler
+-Something with storing in the heap like string or objects?
+
+
+Later:
+-Make the stack byte instead of integer based
+-Objects look fun?
+
+Current "problems":
+-Still using accumulator for return values
+-Having to copy arguments into local variables
+-Jumps use *PC for offset (ie assembly is written as jump 123) instead of using the stack
+
+Snel fixen:
+//TODO: load_local_var en store_local_var kunnen niet uit scope
+//Nog geen echte store op address ofzo
