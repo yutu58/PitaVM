@@ -11,17 +11,17 @@ fact:
     push_bp
     mov 00010000
 
-    load_local_var -3
+    llv -3
 
     push 1
-    load_local_var 0
+    llv 0
     sub
 
     jle base
 
-    load_local_var 0
+    llv 0
     push 1
-    load_local_var 0
+    llv 0
     sub
     call fact
     pop

@@ -40,10 +40,6 @@ void store_local_var_f(int offset) {
     *(RBP+offset) = pop_f();
 }
 
-void fetch_f(int address) {
-    push_f(*reinterpret_cast<int *>(address));
-}
-
 void pop_bp_f() {
     RBP = reinterpret_cast<int *>(pop_f());
 }
@@ -180,6 +176,78 @@ void scan_int_f() {
     std::string b;
     std::cin >> b;
     push_f(std::stoi(b));
+}
+
+void fetch_b_f() {
+    push_f(*reinterpret_cast<char*>(pop_f()));
+}
+
+void fetch_int_f() {
+    push_f(*reinterpret_cast<int*>(pop_f()));
+}
+
+void fetch_b_woffset_f() {
+    int offset = pop_f();
+    push_f(*(reinterpret_cast<char*>(pop_f()))+offset);
+}
+
+void fetch_int_woffset_f() {
+    int offset = pop_f();
+    push_f(*(int*)(reinterpret_cast<char*>(pop_f())+offset));
+}
+
+void store_b_wref_f() {
+    *ram = (char) (pop_f() & 0xff);
+    push_f((int) ram);
+    ram++;
+}
+
+void store_int_wref_f() {
+    int* temp = (int*) ram;
+    *temp = pop_f();
+    push_f((int) ram);
+    ram += 4;
+}
+
+void store_b_f() {
+    *ram = (char) (pop_f() & 0xff);
+    ram++;
+}
+
+void store_int_f() {
+    int* temp = (int*) ram;
+    *temp = pop_f();
+    ram += 4;
+}
+
+void replace_b_f() {
+    char value = (char) (pop_f() & 0xff);
+    int address = pop_f();
+    char* temp = reinterpret_cast<char*>(address);
+    *temp = value;
+}
+
+void replace_int_f() {
+    int value = pop_f();
+    int address = pop_f();
+    int* temp = reinterpret_cast<int*>(address);
+    *temp = value;
+}
+
+void replace_b_woffset_f() {
+    char value = (char) (pop_f() & 0xff);
+    int offset = pop_f();
+    int address = pop_f();
+    char* temp = reinterpret_cast<char*>(address) + offset;
+    *temp = value;
+}
+
+void replace_int_woffset_f() {
+    int value = pop_f();
+    int offset = pop_f();
+    int address = pop_f();
+    int* temp = (int*) (reinterpret_cast<char*>(address) + offset);
+    *temp = value;
 }
 
 

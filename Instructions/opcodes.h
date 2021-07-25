@@ -13,9 +13,9 @@ namespace instructions {
         push_bp,                    //0000 0011, 03, Push value of RBP to stack
         push_acc,                   //0000 0100, 04, Push value of accumulator to stack
         copy,                       //0000 0101, 05, Repeat the last value on the stack
-        load_local_var,             //0000 0110, 06, Push the xth local variable, 1 argument of 1 byte (index of argument, starting at 0) -> basically fetch [rbp + index]
-        store_local_var,            //0000 0111, 07, Store at the xth local variable, 1 argument of 1 byte (index of argument, starting at 0) //Nessecary?
-        fetch,                      //0000 1000, 08, Retrieve int value at given address, 1 argument of 1 byte (how many bytes to retrieve)
+        llv,                        //0000 0110, 06, Push the xth local variable, 1 argument of 1 byte (index of argument, starting at 0) -> basically fetch [rbp + index]
+        slv,                        //0000 0111, 07, Store at the xth local variable, 1 argument of 1 byte (index of argument, starting at 0) //Nessecary?
+        halt,                       //0000 1000, 08
         pop,                        //0000 1001, 09, Discard top value of stack
         pop_bp,                     //0000 1010, 0A, Top value of stack becomes base pointer
         pop_acc,                    //0000 1011, 0B, Pop value of stack to accumulator
@@ -44,7 +44,18 @@ namespace instructions {
         print_int,                  //0010 0001, 21
         scan_ascii,                 //0010 0010, 22
         scan_int,                   //0010 0011, 23
-        halt                        //0010 0100, 24
+        fetch_b,                    //0010 0100, 24, address -> 4 bytes (first 3 are 0 bytes)
+        fetch_int,                  //0010 0101, 25, address -> 4 bytes
+        fetch_b_woffset,            //0010 0110, 26, address + offset -> byte [OFFSET IN BYTES]
+        fetch_int_woffset,          //0010 0111, 27, address + offset -> 4 bytes [OFFSET IN BYTES]
+        store_b_wref,               //0010 1000, 26, 3 zero-bytes + 1 byte -> address (only 1 byte is stored)
+        store_int_wref,             //0010 1001, 27, 4 bytes -> address
+        store_b,                    //0010 1010, 28, last byte -> nothing
+        store_int,                  //0010 1011, 29, 4 bytes -> nothing
+        replace_b,                  //0010 1010, 2A, address + value -> nothing
+        replace_int,                //0010 1011, 2B, address + value -> nothing
+        replace_b_woffset,          //0010 1100, 2C, address + offset + value -> nothing [OFFSET IN BYTES]
+        replace_int_woffset        //0010 1101,  2D, address + offset + value -> nothing [OFFSET IN BYTES]
     };
 }
 

@@ -17,7 +17,7 @@ int load_program(const std::string &file) {
         *(PC + byte_counter) = byte;
         byte_counter++;
     }
-    heap_entry = (PC + byte_counter + 1); //Zerobyte to define end of program?
+    ram = (PC + byte_counter + 1); //add 0 byte
     byte_file.close();
     return 0;
 }
@@ -49,16 +49,12 @@ int execute() {
             case copy:
                 copy_f();
                 break;
-            case load_local_var:
+            case llv:
                 load_local_var_f(*(int *) PC);
                 PC += 4;
                 break;
-            case store_local_var:
+            case slv:
                 store_local_var_f(*(int *) PC);
-                PC += 4;
-                break;
-            case fetch:
-                fetch_f(*(int *) PC);
                 PC += 4;
                 break;
             case pop:
@@ -176,6 +172,42 @@ int execute() {
                 break;
             case halt:
                 running = false;
+                break;
+            case fetch_b:
+                fetch_b_f();
+                break;
+            case fetch_int:
+                fetch_int_f();
+                break;
+            case fetch_b_woffset:
+                fetch_b_woffset_f();
+                break;
+            case fetch_int_woffset:
+                fetch_int_woffset_f();
+                break;
+            case store_b_wref:
+                store_b_wref_f();
+                break;
+            case store_int_wref:
+                store_int_wref_f();
+                break;
+            case store_b:
+                store_b_f();
+                break;
+            case store_int:
+                store_int_f();
+                break;
+            case replace_b:
+                replace_b_f();
+                break;
+            case replace_int:
+                replace_int_f();
+                break;
+            case replace_b_woffset:
+                replace_b_woffset_f();
+                break;
+            case replace_int_woffset:
+                replace_int_woffset_f();
                 break;
             default:
                 return errors::UNKNOWN_OPERATION;

@@ -6,9 +6,8 @@ namespace hardware {
     char *PC;
     int *RBP;
     int *RSP;
-    char *heap_entry;
+    char* ram;
     int accum;
-    bool skip;
 
     const int STACK_SIZE = (1048576) * 4; // stack van 4 mb;
 

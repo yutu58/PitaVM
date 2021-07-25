@@ -3,7 +3,6 @@
 #include "Hardware/hardware.cpp"
 #include "Instructions/executor.cpp"
 #include "TempAssembler/Assembler.cpp"
-#include "binary_check.cpp"
 #include "Errors/ErrorCodes.h"
 
 using namespace std;
@@ -13,10 +12,13 @@ void help();
 void info();
 
 bool running;
+bool flag_exitCodes;
 
 int main() {
     running = true;
     initialize();
+
+    flag_exitCodes = true;
 
     while (running) {
         string command;
@@ -44,7 +46,10 @@ int main() {
 void run(const string& file) {
     int load = load_program(file);
     if (load == 0) {
-        execute();
+        int res = execute();
+        if (flag_exitCodes) {
+            cout << errors::messages.find(res)->second << endl;
+        }
     } else {
         cerr << "Error: File not found";
     }

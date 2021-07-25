@@ -12,9 +12,9 @@ namespace assembler {
              {"push_bp",         push_bp},
              {"push_acc",        push_acc},
              {"copy",            copy},
-             {"load_local_var",  load_local_var},
-             {"store_local_var", store_local_var},
-             {"fetch",           fetch},
+             {"llv",  llv},
+             {"slv", slv},
+             {"halt",           halt},
              {"pop",             pop},
              {"pop_bp",          pop_bp},
              {"pop_acc",         pop_acc},
@@ -42,7 +42,18 @@ namespace assembler {
              {"print_int",       print_int},
              {"scan_ascii", scan_ascii},
              {"scan_int", scan_int},
-             {"halt", halt}
+             {"fetch_b", fetch_b},
+             {"fetch_int", fetch_int},
+             {"fetch_b_woffset", fetch_b_woffset},
+             {"fetch_int_woffset", fetch_int_woffset},
+             {"store_b_wref", store_b_wref},
+             {"store_int_wref", store_int_wref},
+             {"store_b", store_b},
+             {"store_int", store_int},
+             {"replace_b", replace_b},
+             {"replace_int", replace_int},
+             {"replace_b_woffset", replace_b_woffset},
+             {"replace_int_woffset", replace_int_woffset}
             };
 
     std::vector<char> convertIntToBytes(int integer) {
