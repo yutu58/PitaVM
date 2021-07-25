@@ -45,7 +45,7 @@ void fetch_f(int address) {
 }
 
 void pop_bp_f() {
-    RSP = reinterpret_cast<int *>(pop_f());
+    RBP = reinterpret_cast<int *>(pop_f());
 }
 
 void pop_acc_f() {
@@ -64,6 +64,7 @@ void ret_f() {
 void mov_f(char a, char b) {
     int all[4] = {(int) RBP, (int) RSP, (int) PC, accum};
     int temp = all[a];
+//    std::cout << "a: " << (int) a << " b: " << (int) b << std::endl;
     switch (b) {
         case 0:
             RBP = reinterpret_cast<int*>(temp);
@@ -159,7 +160,8 @@ void jle_f(int offset) {
 }
 
 void debug_f() {
-    std::cout << "RBP:" << RBP << " RSP:" << RSP << " *RSP:" << *RSP << " PC_offset:" << (int) PC - (int) memory - STACK_SIZE;
+    std::cout << "RBP:" << RBP << " RSP:" << RSP << " *RSP-1:" << *(RSP-1) << " PC_offset:"
+        <<(int) PC - (int) memory - STACK_SIZE << std::endl;
 }
 
 void print_ascii_f() {

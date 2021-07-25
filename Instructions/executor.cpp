@@ -81,8 +81,9 @@ int execute() {
             {
                 char a = *PC;
                 char b = (char) ((int) a >> 4);
-                char c = (char) (((int) a << 4) >> 4);
+                char c = (char) ((int) a & 0x0f);
                 mov_f(b, c);
+                PC++;
             }
                 break;
             case exception:

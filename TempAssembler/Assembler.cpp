@@ -1,9 +1,11 @@
 #include "Assembler.h"
+#include <map>
 #include <vector>
 
 using namespace assembler;
 
 void assemble(const std::string& file) {
+
     std::map<std::string, int> labels;
     std::map<int, std::string> label_references;
 
@@ -15,11 +17,16 @@ void assemble(const std::string& file) {
     }
     int byteCount = 0;
     while (assembly_file >> word) {
-        std::cout << word;
         auto opcode = opcode_table.find(word);
         if (opcode != opcode_table.end()) {
             all.push_back((char) opcode->second);
             byteCount++;
+
+            if (opcode->second == instructions::mov) {
+                assembly_file >> word;
+                all.push_back((char) std::stoi(word, nullptr, 2));
+                byteCount++;
+            }
         }
         else {
             try {
@@ -64,7 +71,7 @@ void assemble(const std::string& file) {
     }
     assembly_file.close();
 
-    std::ofstream binaryFile("assembled.bpitab");
+    std::ofstream binaryFile("assembled.bpitab", std::ios_base::binary);
     for (char i : all) {
         binaryFile.put(i);
     }

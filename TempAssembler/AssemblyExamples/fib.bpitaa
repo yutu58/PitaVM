@@ -1,0 +1,47 @@
+scan_int
+call fib
+pop
+push_acc
+print_int
+push 10
+print_ascii
+halt
+
+fib:
+    push_bp
+    mov 00010000
+
+    load_local_var -3
+
+    push 1
+    load_local_var 0
+    sub
+    jle base
+
+    push 1
+    load_local_var 0
+    sub
+    call fib
+    pop
+    push_acc
+
+    push 2
+    load_local_var 0
+    sub
+    call fib
+    pop
+    push_acc
+
+    add
+    pop_acc
+    jmp epilogue
+
+    base:
+    push 1
+    pop_acc
+    jmp epilogue
+
+    epilogue:
+    mov 00000001
+    pop_bp
+    ret

@@ -1,11 +1,11 @@
-#include <map>
+#include <unordered_map>
 #include <vector>
 
 #ifndef PITAVM_ASSEMBLER_H
 #define PITAVM_ASSEMBLER_H
 
 namespace assembler {
-    std::map<std::string, opcodes> opcode_table =
+    std::unordered_map<std::string, opcodes> opcode_table
             {{"nop",             nop},
              {"push_null",       push_null},
              {"push", push},
