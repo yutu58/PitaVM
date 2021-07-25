@@ -48,7 +48,7 @@ void run(const string& file) {
     if (load == 0) {
         int res = execute();
         if (flag_exitCodes) {
-            cout << errors::messages.find(res)->second << endl;
+            cout << endl << endl << errors::messages.find(res)->second << endl;
         }
     } else {
         cerr << "Error: File not found";
