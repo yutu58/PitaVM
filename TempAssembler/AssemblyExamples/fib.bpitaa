@@ -7,6 +7,8 @@ push 10
 print_ascii
 halt
 
+#Dit is een test
+
 fib:
     push_bp
     mov 00010000
