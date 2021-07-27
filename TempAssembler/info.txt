@@ -1,0 +1,5 @@
+This assembler is only for temporary use.
+It is used to check whether the instruction set is correctly implemented or not.
+The final version of this VM should have an assembler built in in bytecode with the built-in programs.
+
+-yutu58, 24th of July 2021

@@ -1,77 +1,253 @@
-#include "instruction_handler.h"
+#include <string>
+
 using namespace instructions;
 
-//TODO: not accessing PC in this namespace
+void push_f(int value) {
+    *RSP = value;
+    RSP++;
+}
 
-int execute() {
-    resetPC();
-    bool running = true;
-    while (running) {
-        char instr = *PC;
-        PC++;
-        switch (instr) {
-            case STOP:
-                running = false;
-                break;
-            case LOAD:
-                //Load immediate value
-                load(*(int *) PC);
-                PC += 4;
-                break;
-            case FETCH: //opcode, amount of bytes [1, 2, 4]
-                //fetch
-                fetch(*PC);
-                PC++;
-                break;
-            case MOVE_POINTERS: //was "copy", type [1, or type 2]
-                move_pointers(*PC);
-                PC++;
-                break;
-            case JUMP:
-                jump(*(int *) PC);
-                break;
-            case CALL:
-                call(*(int *) PC);
-                break;
-            case RETURN:
-                return_method();
-                break;
-            case SEVEN:
-                //blah
-                break;
-            case PRINT:
-                print(); //Print accum as ascii
-                break;
-            case DIR_PRINT:
-                print_int(); //Print accum as integer
-                break;
-            case DIV_POP:
-                div_pop();
-                break;
-            case MUL_POP:
-                mul_pop();
-                break;
-            case SUB_POP:
-                sub_pop();
-                break;
-            case ADD_POP:
-                add_pop();
-                break;
-            case POP:
-                pop();
-                break;
-            case PUSH:
-                push();
-                break;
-            case CMP:
-                compare(*PC);
-                PC++;
-                break;
-            default:
-                return 2; //unknown instruction;
-        }
+int pop_f() {
+    RSP--;
+    return *RSP;
+}
+
+void nop_f() {
+    //Do absolutely nothing
+}
+
+void push_null_f() {
+    push_f(0); //Or whatever a null_reference is?
+}
+
+void push_bp_f() {
+    push_f((int) RBP);
+}
+
+void push_acc_f() {
+    push_f(accum);
+}
+
+void copy_f() {
+    push_f(*RSP);
+}
+
+void load_local_var_f(int offset) {
+    push_f(*(RBP+offset));
+}
+
+void store_local_var_f(int offset) {
+    *(RBP+offset) = pop_f();
+}
+
+void pop_bp_f() {
+    RBP = reinterpret_cast<int *>(pop_f());
+}
+
+void pop_acc_f() {
+    accum = pop_f();
+}
+
+void call_f(int offset) {
+    push_f((int) PC + 4);
+    PC = (char*) memory + STACK_SIZE + offset;
+}
+
+void ret_f() {
+    PC = reinterpret_cast<char *>(pop_f());
+}
+
+void mov_f(char a, char b) {
+    int all[4] = {(int) RBP, (int) RSP, (int) PC, accum};
+    int temp = all[a];
+//    std::cout << "a: " << (int) a << " b: " << (int) b << std::endl;
+    switch (b) {
+        case 0:
+            RBP = reinterpret_cast<int*>(temp);
+            break;
+        case 1:
+            RSP = reinterpret_cast<int*>(temp);
+            break;
+        case 2:
+            PC =  reinterpret_cast<char*>(temp);
+            break;
+        case 3:
+            accum = temp;
+            break;
+        default:
+            return;
     }
-    return 0;
+}
+
+void exception_f(char error_code) {
+    //TODO: todo
+}
+
+void add_f() {
+    push_f(pop_f() + pop_f());
+}
+
+void sub_f() {
+    push_f(pop_f() - pop_f());
+}
+
+void mul_f() {
+    push_f(pop_f() * pop_f());
+}
+
+void div_f() {
+    push_f(pop_f() / pop_f());
+}
+
+void mod_f() {
+    push_f(pop_f() % pop_f());
+}
+
+void b_not_f() {
+    push_f(~pop_f());
+}
+
+void b_and_f() {
+    push_f(pop_f() & pop_f());
+}
+
+void b_or_f() {
+    push_f(pop_f() | pop_f());
+}
+
+void jmp_f(int offset) {
+    PC = (char*) memory + STACK_SIZE + offset;
+}
+
+void jz_f(int offset) {
+    if (pop_f() == 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jnz_f(int offset) {
+    if (pop_f() != 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jg_f(int offset) {
+    if (pop_f() > 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jge_f(int offset) {
+    if (pop_f() >= 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void jl_f(int offset) {
+    if (pop_f() < 0) {
+        PC = (char *) memory + STACK_SIZE + offset;
+    }
+}
+
+void jle_f(int offset) {
+    if (pop_f() <= 0) {
+        PC = (char*) memory + STACK_SIZE + offset;
+    }
+}
+
+void debug_f() {
+    std::cout << "RBP:" << RBP << " RSP:" << RSP << " *RSP-1:" << *(RSP-1) << " PC_offset:"
+        <<(int) PC - (int) memory - STACK_SIZE << std::endl;
+}
+
+void print_ascii_f() {
+    std::cout << (char) pop_f();
+}
+
+void print_int_f() {
+    std::cout << (int) pop_f();
+}
+
+void scan_ascii_f() {
+    //TODO: to_be_implemented;
+}
+
+void scan_int_f() {
+    std::string b;
+    std::cin >> b;
+    push_f(std::stoi(b));
+}
+
+void fetch_b_f() {
+    push_f(*reinterpret_cast<char*>(pop_f()));
+}
+
+void fetch_int_f() {
+    push_f(*reinterpret_cast<int*>(pop_f()));
+}
+
+void fetch_b_woffset_f() {
+    int offset = pop_f();
+    push_f(*(reinterpret_cast<char*>(pop_f()))+offset);
+}
+
+void fetch_int_woffset_f() {
+    int offset = pop_f();
+    push_f(*(int*)(reinterpret_cast<char*>(pop_f())+offset));
+}
+
+void store_b_wref_f() {
+    *ram = (char) (pop_f() & 0xff);
+    push_f((int) ram);
+    ram++;
+}
+
+void store_int_wref_f() {
+    int* temp = (int*) ram;
+    *temp = pop_f();
+    push_f((int) ram);
+    ram += 4;
+}
+
+void store_b_f() {
+    *ram = (char) (pop_f() & 0xff);
+    ram++;
+}
+
+void store_int_f() {
+    int* temp = (int*) ram;
+    *temp = pop_f();
+    ram += 4;
+}
+
+void replace_b_f() {
+    char value = (char) (pop_f() & 0xff);
+    int address = pop_f();
+    char* temp = reinterpret_cast<char*>(address);
+    *temp = value;
+}
+
+void replace_int_f() {
+    int value = pop_f();
+    int address = pop_f();
+    int* temp = reinterpret_cast<int*>(address);
+    *temp = value;
+}
+
+void replace_b_woffset_f() {
+    char value = (char) (pop_f() & 0xff);
+    int offset = pop_f();
+    int address = pop_f();
+    char* temp = reinterpret_cast<char*>(address) + offset;
+    *temp = value;
+}
+
+void replace_int_woffset_f() {
+    int value = pop_f();
+    int offset = pop_f();
+    int address = pop_f();
+    int* temp = (int*) (reinterpret_cast<char*>(address) + offset);
+    *temp = value;
 }
 
 
