@@ -17,6 +17,10 @@ void assemble(const std::string& file) {
     }
     int byteCount = 0;
     while (assembly_file >> word) {
+        if (word.rfind('#', 0) == 0) {
+            std::string temp;
+            std::getline(assembly_file, temp);
+        }
         auto opcode = opcode_table.find(word);
         if (opcode != opcode_table.end()) {
             all.push_back((char) opcode->second);
