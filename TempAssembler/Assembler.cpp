@@ -4,7 +4,7 @@
 
 using namespace assembler;
 
-void assemble(const std::string& file) {
+std::string assemble(const std::string& file) {
 
     std::map<std::string, int> labels;
     std::map<int, std::string> label_references;
@@ -13,7 +13,8 @@ void assemble(const std::string& file) {
     std::ifstream assembly_file(file);
     std::string word;
     if (assembly_file.fail()) {
-        return;
+        std::cout << "Error: Could not find assembly file" << std::endl;
+        return "";
     }
     int byteCount = 0;
     while (assembly_file >> word) {
@@ -75,11 +76,24 @@ void assemble(const std::string& file) {
     }
     assembly_file.close();
 
-    std::ofstream binaryFile("assembled.bpitab", std::ios_base::binary);
+    std::string byte_filename;
+    auto dot_place = file.find('.');
+    if (dot_place != std::string::npos)
+    {
+        byte_filename = file.substr(0, dot_place);
+    }
+    else {
+        byte_filename = file;
+    }
+    byte_filename.append(".bpitab");
+
+    std::ofstream binaryFile(byte_filename, std::ios_base::binary);
     for (char i : all) {
         binaryFile.put(i);
     }
     binaryFile.close();
+
+    return byte_filename;
 }
 
 

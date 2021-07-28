@@ -14,36 +14,48 @@ void info();
 bool running;
 bool flag_exitCodes;
 
-int main() {
+int main(int argc, char* argv[]) {
     running = true;
     initialize();
 
-    flag_exitCodes = true;
+    if (argc == 1) {
+        flag_exitCodes = true;
 
-    while (running) {
-        string command;
-        getline(cin, command);
-        if (command.rfind("run ", 0) == 0) {
-            string z = command.substr(4);
-            run(z);
+        while (running) {
+            string command;
+            getline(cin, command);
+            if (command.rfind("run ", 0) == 0) {
+                string z = command.substr(4);
+                run(z);
+            } else if (command.rfind("assemble ", 0) == 0) {
+                string z = command.substr(9);
+                assemble(z);
+            } else if (command == "help") {
+                help();
+            } else if (command == "info") {
+                info();
+            } else if (command == "q") {
+                running = false;
+            }
         }
-        else if (command.rfind("assemble ", 0) == 0) {
-            string z = command.substr(9);
-            assemble(z);
+    }
+    else if (argc > 2) {
+        if (strcmp(argv[1], "run") == 0) {
+            run(argv[2]);
         }
-        else if (command == "help") {
-            help();
+        else if (strcmp(argv[1], "assemble") == 0) {
+            assemble(argv[2]);
         }
-        else if (command == "info") {
-            info();
-        }
-        else if (command == "q") {
-            running = false;
+        else if (strcmp(argv[1], "ar") == 0) { //assemble and run
+            run(assemble(argv[2]));
         }
     }
 }
 
 void run(const string& file) {
+    if (file.empty()) {
+        return;
+    }
     int load = load_program(file);
     if (load == 0) {
         int res = execute();
@@ -51,7 +63,7 @@ void run(const string& file) {
             cout << endl << endl << errors::messages.find(res)->second << endl;
         }
     } else {
-        cerr << "Error: File not found";
+        cerr << "Error: Could not find file to run" << endl;
     }
 }
 
